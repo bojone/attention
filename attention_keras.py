@@ -89,7 +89,7 @@ class Attention(Layer):
         V_seq = K.reshape(V_seq, (-1, K.shape(V_seq)[1], self.nb_head, self.size_per_head))
         V_seq = K.permute_dimensions(V_seq, (0,2,1,3))
         #计算内积，然后mask，然后softmax
-        A = K.batch_dot(Q_seq, K_seq, axes=[3,3])
+        A = K.batch_dot(Q_seq, K_seq, axes=[3,3]) / size_per_head**0.5
         A = K.permute_dimensions(A, (0,3,2,1))
         A = self.Mask(A, V_len, 'add')
         A = K.permute_dimensions(A, (0,3,2,1))    
