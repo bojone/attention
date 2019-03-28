@@ -36,10 +36,11 @@ class Position_Embedding(Layer):
 
 class Attention(Layer):
 
-    def __init__(self, nb_head, size_per_head, **kwargs):
+    def __init__(self, nb_head, size_per_head, mask_right=False, **kwargs):
         self.nb_head = nb_head
         self.size_per_head = size_per_head
         self.output_dim = nb_head*size_per_head
+        self.mask_right = mask_right
         super(Attention, self).__init__(**kwargs)
 
     def build(self, input_shape):
@@ -92,7 +93,11 @@ class Attention(Layer):
         A = K.batch_dot(Q_seq, K_seq, axes=[3,3]) / self.size_per_head**0.5
         A = K.permute_dimensions(A, (0,3,2,1))
         A = self.Mask(A, V_len, 'add')
-        A = K.permute_dimensions(A, (0,3,2,1))    
+        A = K.permute_dimensions(A, (0,3,2,1)) 
+        if self.mask_right:
+            ones = K.ones_like(A[:1, :1])
+            mask = (ones - K.tf.matrix_band_part(ones, -1, 0)) * 1e12
+            A = A - mask
         A = K.softmax(A)
         #输出并mask
         O_seq = K.batch_dot(A, V_seq, axes=[3,2])
