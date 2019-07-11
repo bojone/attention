@@ -6,7 +6,7 @@ from keras.engine.topology import Layer
 class Position_Embedding(Layer):
     
     def __init__(self, size=None, mode='sum', **kwargs):
-        self.size = size #必须为偶数
+        self.size = size # 必须为偶数
         self.mode = mode
         super(Position_Embedding, self).__init__(**kwargs)
         
@@ -18,7 +18,7 @@ class Position_Embedding(Layer):
                                  2 * K.arange(self.size / 2, dtype='float32' \
                                ) / self.size)
         position_j = K.expand_dims(position_j, 0)
-        position_i = K.cumsum(K.ones_like(x[:,:,0]), 1) - 1 #K.arange不支持变长，只好用这种方法生成
+        position_i = K.cumsum(K.ones_like(x[:,:,0]), 1) - 1 # K.arange不支持变长，只好用这种方法生成
         position_i = K.expand_dims(position_i, 2)
         position_ij = K.dot(position_i, position_j)
         position_ij = K.concatenate([K.cos(position_ij), K.sin(position_ij)], 2)
