@@ -387,12 +387,12 @@ class TrainablePositionEmbedding(OurLayer):
     """
     def __init__(self, maxlen, v_dim,
                  merge_mode='add', **kwargs):
-        super(PositionEmbedding, self).__init__(**kwargs)
+        super(TrainablePositionEmbedding, self).__init__(**kwargs)
         self.maxlen = maxlen
         self.v_dim = v_dim
         self.merge_mode = merge_mode
     def build(self, input_shape):
-        super(PositionEmbedding, self).build(input_shape)
+        super(TrainablePositionEmbedding, self).build(input_shape)
         self.embeddings = self.add_weight(
             name='embeddings',
             shape=(self.maxlen, self.v_dim),
