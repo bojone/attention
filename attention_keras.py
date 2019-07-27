@@ -448,7 +448,7 @@ class SinCosPositionEmbedding(Layer):
     def idx2pos(self, pid):
         pid = K.cast(pid, 'float32')
         pid = K.expand_dims(pid, 2)
-        pj = 1. / K.pow(10000, 2. / self.v_dim * K.arange(self.v_dim // 2, dtype='float32'))
+        pj = 1. / K.pow(10000., 2. / self.v_dim * K.arange(self.v_dim // 2, dtype='float32'))
         pj = K.expand_dims(pj, 0)
         pv = K.dot(pid, pj)
         pv1, pv2 = K.sin(pv), K.cos(pv)
