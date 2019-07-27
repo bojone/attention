@@ -156,6 +156,7 @@ class SelfAttention(OurLayer):
 
 class AtrousSelfAttention(OurLayer):
     """空洞多头自注意力机制
+    说明：每个元素只跟相对距离为rate的倍数的元素有关联。
     """
     def __init__(self, heads, size_per_head, rate=1,
                  key_size=None, mask_right=False, **kwargs):
@@ -215,6 +216,8 @@ class AtrousSelfAttention(OurLayer):
 
 class LocalSelfAttention(OurLayer):
     """局部多头自注意力机制
+    说明：每个元素只跟相对距离不超过neighbors的元素有关联，这里的rate
+    是真正的膨胀率（跟膨胀卷积一样），如果不了解可以忽略，默认为1就好。
     """
     def __init__(self, heads, size_per_head, neighbors=1, rate=1,
                  key_size=None, mask_right=False, **kwargs):
@@ -275,6 +278,7 @@ class LocalSelfAttention(OurLayer):
 class SparseSelfAttention(OurLayer):
     """稀疏多头自注意力机制
     来自文章《Generating Long Sequences with Sparse Transformers》
+    说明：每个元素只跟相对距离为rate的倍数的元素、以及相对距离不超过rate的元素有关联。
     """
     def __init__(self, heads, size_per_head, rate=2,
                  key_size=None, mask_right=False, **kwargs):
