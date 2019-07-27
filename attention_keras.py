@@ -426,7 +426,7 @@ class SinCosPositionEmbedding(Layer):
     """
     def __init__(self, v_dim,
                  merge_mode='add', **kwargs):
-        super(CosSinPositionEmbedding, self).__init__(**kwargs)
+        super(SinCosPositionEmbedding, self).__init__(**kwargs)
         self.v_dim = v_dim
         self.merge_mode = merge_mode
     def call(self, inputs):
