@@ -463,4 +463,4 @@ class SinCosPositionEmbedding(Layer):
         if self.merge_mode == 'add':
             return input_shape
         else:
-            return (input_shape[0], input_shape[1], input_shape[2] + self.v_dim)
+            return input_shape[:-1] + (input_shape[-1] + self.v_dim,)
