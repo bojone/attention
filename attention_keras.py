@@ -6,6 +6,7 @@ import keras.backend as K
 
 def to_mask(x, mask, mode='mul'):
     """通用mask函数
+    这里的mask.shape=[batch_size, seq_len]或[batch_size, seq_len, 1]
     """
     if mask is None:
         return x
@@ -81,6 +82,7 @@ class Attention(OurLayer):
     def call(self, inputs):
         q, k, v = inputs[: 3]
         v_mask, q_mask = None, None
+        # 这里的mask.shape=[batch_size, seq_len]或[batch_size, seq_len, 1]
         if len(inputs) > 3:
             v_mask = inputs[3]
             if len(inputs) > 4:
